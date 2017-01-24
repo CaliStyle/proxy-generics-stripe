@@ -7,8 +7,8 @@ module.exports = class ProxyGenericsStripe {
   }
 
   /**
-   *
-   * @returns {*}
+   * Create Stripe Instance
+   * @returns {*} Stripe Instance
    */
   stripe() {
     return require('stripe')(
@@ -22,7 +22,6 @@ module.exports = class ProxyGenericsStripe {
    * @returns {String}
    */
   resolveStripeError(err) {
-    console.log(err)
     let errorCode
     switch (err.code) {
     case 'card_declined':
