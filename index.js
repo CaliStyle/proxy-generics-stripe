@@ -25,8 +25,29 @@ module.exports = class ProxyGenericsStripe {
     console.log(err)
     let errorCode
     switch (err.code) {
-    case '':
+    case 'card_declined':
+      errorCode = 'card_declined'
+      break
+    case 'incorrect_cvc':
+      errorCode = 'incorrect_cvc'
+      break
+    case 'expired_card':
+      errorCode = 'expired_card'
+      break
+    case 'processing_error':
       errorCode = 'processing_error'
+      break
+    case 'incorrect_number':
+      errorCode = 'incorrect_number'
+      break
+    case 'invalid_expiry_month':
+      errorCode = 'invalid_expiry_date'
+      break
+    case 'invalid_expiry_year':
+      errorCode = 'invalid_expiry_date'
+      break
+    case 'invalid_cvc':
+      errorCode = 'invalid_cvc'
       break
     default:
       errorCode = 'processing_error'

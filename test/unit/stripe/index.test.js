@@ -1,7 +1,6 @@
 'use strict'
 /* global describe, it */
 const assert = require('assert')
-
 describe('Payment Generic Stripe', () => {
   let PaymentGenericService
   let Stripe
