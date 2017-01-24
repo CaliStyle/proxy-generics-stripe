@@ -1,0 +1,45 @@
+{
+  "name": "proxy-generics-stripe",
+  "version": "0.0.0",
+  "description": "Proxy Generic Stripe.com",
+  "homepage": "https://cali-style.com",
+  "author": {
+    "name": "scott-wyatt",
+    "email": "scottwyatt86@gmail.com",
+    "url": "https://cali-style.com"
+  },
+  "main": "index.js",
+  "keywords": [
+    "proxy-engine",
+    "proxy-cart",
+    "proxy-generics",
+    "stripe",
+    "trailpack",
+    "trails",
+    "trailjs"
+  ],
+  "dependencies": {
+    "stripe": "^4.15.0"
+  },
+  "devDependencies": {
+    "eslint": "^2.4",
+    "eslint-config-trails": "^2",
+    "lodash": "^4.11.1",
+    "mocha": "^2.4.5",
+    "smokesignals": "v2-latest",
+    "supertest": "^2.0.1",
+    "trailpack-proxy-generics": "^0.0.10",
+    "trails": "v2-latest"
+  },
+  "scripts": {
+    "test": "eslint . && mocha"
+  },
+  "engines": {
+    "node": ">= 4.0.0"
+  },
+  "eslintConfig": {
+    "extends": "trails"
+  },
+  "repository": "git@github.com:CaliStyle/proxy-generics-stripe.git",
+  "license": "MIT"
+}
