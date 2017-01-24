@@ -18,8 +18,8 @@ module.exports = _.defaultsDeep({
       stripe: {
         adapter: require('../'),
         options: {
-          public: process.ENV.STRIPE_PUBLIC,
-          secret: process.ENV.STRIPE_SECRET
+          public: process.env.STRIPE_PUBLIC,
+          secret: process.env.STRIPE_SECRET
         }
       }
     }
