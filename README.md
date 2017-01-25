@@ -21,8 +21,8 @@ module.exports = {
   stripe: {
       adapter: require('proxy-generic-stripe'),
       options: {
-          public: '<your public key>'
-          private: '<your private key>'
+          public: '<your public key>',
+          secret: '<your private key>'
       }
   }
 }
