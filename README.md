@@ -18,6 +18,7 @@ $ npm install --save proxy-generics-stripe
 ```js
 // config/proxyGenerics.js
 module.exports = {
+  // make the key stripe, alternatively make the key payment_processor to be the default payment_processor  
   stripe: {
       adapter: require('proxy-generic-stripe'),
       options: {
