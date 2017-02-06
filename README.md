@@ -7,6 +7,9 @@
 
 Proxy Generic Payment Processor for Stripe.com.
 
+Looking for [Proxy Engine?](https://github.com/calistyle/trailpack-proxy-engine)
+Looking for [Proxy Generics?](https://github.com/calistyle/trailpack-proxy-generics)
+
 ## Install
 
 ```sh
@@ -24,7 +27,8 @@ module.exports = {
       options: {
           public: '<your public key>',
           secret: '<your private key>'
-      }
+      },
+      icon: '' // url to an icon you want to use for this generic
   }
 }
 ```
