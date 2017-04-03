@@ -21,7 +21,7 @@ module.exports = class ProxyGenericsStripe {
    * @param {Object} err
    * @returns {String}
    */
-  resolveStripeError(err) {
+  resolveStripeCardError(err) {
     let errorCode
     switch (err.code) {
     case 'card_declined':
@@ -73,11 +73,11 @@ module.exports = class ProxyGenericsStripe {
         amount: transaction.amount,
         currency: transaction.currency || 'usd',
         source: transaction.payment_details.token,
-        description: transaction.description || null,
+        description: transaction.description || 'Transaction Authorize',
         capture: false
       }, (err, charge) => {
         if (err) {
-          transaction.error_code = this.resolveStripeError(err)
+          transaction.error_code = this.resolveStripeCardError(err)
           transaction.status = 'failure'
           return resolve(transaction)
         }
@@ -117,7 +117,7 @@ module.exports = class ProxyGenericsStripe {
         transaction.authorization
       , (err, charge) => {
         if (err) {
-          transaction.error_code = this.resolveStripeError(err)
+          transaction.error_code = this.resolveStripeCardError(err)
           transaction.status = 'failure'
           return resolve(transaction)
         }
@@ -158,11 +158,11 @@ module.exports = class ProxyGenericsStripe {
         amount: transaction.amount,
         currency: transaction.currency || 'usd',
         source: transaction.payment_details.token,
-        description: transaction.description || null,
+        description: transaction.description || 'Transaction Sale',
         capture: true
       }, (err, charge) => {
         if (err) {
-          transaction.error_code = this.resolveStripeError(err)
+          transaction.error_code = this.resolveStripeCardError(err)
           transaction.status = 'failure'
           return resolve(transaction)
         }
@@ -205,7 +205,7 @@ module.exports = class ProxyGenericsStripe {
     return new Promise((resolve, reject) => {
       this.stripe().refunds.create(refund, (err, refund) => {
         if (err) {
-          transaction.error_code = this.resolveStripeError(err)
+          transaction.error_code = this.resolveStripeCardError(err)
           transaction.status = 'failure'
           return resolve(transaction)
         }
@@ -237,7 +237,7 @@ module.exports = class ProxyGenericsStripe {
     return new Promise((resolve, reject) => {
       this.stripe().refunds.create(refund, (err, refund) => {
         if (err) {
-          transaction.error_code = this.resolveStripeError(err)
+          transaction.error_code = this.resolveStripeCardError(err)
           transaction.status = 'failure'
           return resolve(transaction)
         }
@@ -257,13 +257,17 @@ module.exports = class ProxyGenericsStripe {
     return new Promise((resolve, reject) => {
       const create = {
         email: customer.email,
-        description: 'Customer Account'
+        description: customer.description || 'Customer Account'
       }
       this.stripe().customers.create(create, function(err, stripeCustomer) {
         if (err) {
           return reject(err)
         }
-        return resolve(stripeCustomer)
+        const ret = {
+          gateway: 'stripe',
+          data: stripeCustomer
+        }
+        return resolve(ret)
       })
     })
   }
