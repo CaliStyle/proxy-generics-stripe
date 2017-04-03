@@ -22,14 +22,14 @@
     "stripe": "^4.15.0"
   },
   "devDependencies": {
-    "eslint": "^2.4",
-    "eslint-config-trails": "^2",
+    "eslint": "^3.17.1",
+    "eslint-config-trails": "^2.0.0",
     "lodash": "^4.11.1",
     "mocha": "^2.4.5",
-    "smokesignals": "v2-latest",
+    "smokesignals": "^2.0.0",
     "supertest": "^2.0.1",
     "trailpack-proxy-generics": "^0.0.16",
-    "trails": "v2-latest"
+    "trails": "^2.0.0"
   },
   "scripts": {
     "test": "eslint . && mocha"
