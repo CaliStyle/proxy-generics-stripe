@@ -247,5 +247,64 @@ module.exports = class ProxyGenericsStripe {
       })
     })
   }
+
+  /**
+   *
+   * @param customer
+   * @returns {Promise.<T>}
+   */
+  createCustomer(customer) {
+    return new Promise((resolve, reject) => {
+      const create = {
+        email: customer.email,
+        description: 'Customer Account'
+      }
+      this.stripe().customers.create(create, function(err, stripeCustomer) {
+        if (err) {
+          return reject(err)
+        }
+        return resolve(stripeCustomer)
+      })
+    })
+  }
+
+  /**
+   *
+   * @param source
+   * @returns {Promise.<T>}
+   */
+  createCustomerSource(source) {
+    return Promise.resolve(source)
+  }
+
+  /**
+   *
+   * @param customer
+   * @returns {Promise.<T>}
+   */
+  updateCustomer(customer) {
+    return Promise.resolve(customer)
+    // return new Promise((resolve, reject) => {
+    //   const update = {
+    //     email: customer.email,
+    //     description: 'Customer'
+    //   }
+    //   this.stripe().customers.create(update, function(err, stripeCustomer) {
+    //     if (err) {
+    //       return reject(err)
+    //     }
+    //     return resolve(stripeCustomer)
+    //   })
+    // })
+  }
+
+  /**
+   *
+   * @param source
+   * @returns {Promise.<T>}
+   */
+  updateCustomerSource(source) {
+    return Promise.resolve(source)
+  }
 }
 
