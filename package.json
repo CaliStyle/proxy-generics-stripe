@@ -1,6 +1,6 @@
 {
   "name": "proxy-generics-stripe",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Proxy Generic Stripe.com",
   "homepage": "https://cali-style.com",
   "author": {
@@ -28,7 +28,7 @@
     "mocha": "^2.4.5",
     "smokesignals": "^2.0.0",
     "supertest": "^2.0.1",
-    "trailpack-proxy-generics": "^0.0.16",
+    "trailpack-proxy-generics": "^0.0.26",
     "trails": "^2.0.0"
   },
   "scripts": {

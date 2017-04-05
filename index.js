@@ -259,12 +259,18 @@ module.exports = class ProxyGenericsStripe {
         email: customer.email,
         description: customer.description || 'Customer Account'
       }
+      if (customer.source) {
+        create.source = customer.source
+      }
+
       this.stripe().customers.create(create, function(err, stripeCustomer) {
         if (err) {
           return reject(err)
         }
         const ret = {
           gateway: 'stripe',
+          foreign_key: stripeCustomer.object,
+          foreign_id: stripeCustomer.id,
           data: stripeCustomer
         }
         return resolve(ret)
@@ -278,28 +284,96 @@ module.exports = class ProxyGenericsStripe {
    * @returns {Promise.<T>}
    */
   createCustomerSource(source) {
-    return Promise.resolve(source)
+    return new Promise((resolve, reject) => {
+      const create = {
+        source: source.token
+      }
+      this.stripe().customers.createSource(source.account_foreign_id, create, function(err, stripeCustomer) {
+        if (err) {
+          return reject(err)
+        }
+        const ret = {
+          gateway: 'stripe',
+          foreign_key: stripeCustomer.object,
+          foreign_id: stripeCustomer.id,
+          data: stripeCustomer
+        }
+        return resolve(ret)
+      })
+    })
   }
-
+  /**
+   *
+   * @param customer
+   * @returns {Promise.<T>}
+   */
+  findCustomer(customer) {
+    return new Promise((resolve, reject) => {
+      this.stripe().customers.retrieve(customer.foreign_id, function(err, stripeCustomer) {
+        if (err) {
+          return reject(err)
+        }
+        const ret = {
+          gateway: 'stripe',
+          foreign_key: stripeCustomer.object,
+          foreign_id: stripeCustomer.id,
+          data: stripeCustomer
+        }
+        return resolve(ret)
+      })
+    })
+  }
+  /**
+   *
+   * @param customer
+   * @returns {Promise.<T>}
+   */
+  findCustomerSource(source) {
+    return new Promise((resolve, reject) => {
+      this.stripe().customers.retrieveCard(source.account_foreign_id, source.foreign_id, function(err, stripeCard) {
+        if (err) {
+          return reject(err)
+        }
+        const ret = {
+          gateway: 'stripe',
+          foreign_key: stripeCard.object,
+          foreign_id: stripeCard.id,
+          data: stripeCard
+        }
+        return resolve(ret)
+      })
+    })
+  }
   /**
    *
    * @param customer
    * @returns {Promise.<T>}
    */
   updateCustomer(customer) {
-    return Promise.resolve(customer)
-    // return new Promise((resolve, reject) => {
-    //   const update = {
-    //     email: customer.email,
-    //     description: 'Customer'
-    //   }
-    //   this.stripe().customers.create(update, function(err, stripeCustomer) {
-    //     if (err) {
-    //       return reject(err)
-    //     }
-    //     return resolve(stripeCustomer)
-    //   })
-    // })
+    return new Promise((resolve, reject) => {
+      const update = {}
+      if (customer.source) {
+        update.source = customer.source
+      }
+      if (customer.email) {
+        update.email = customer.email
+      }
+      if (customer.description) {
+        update.description = customer.description
+      }
+      this.stripe().customers.update(customer.foreign_id, update, function(err, stripeCustomer) {
+        if (err) {
+          return reject(err)
+        }
+        const ret = {
+          gateway: 'stripe',
+          foreign_key: stripeCustomer.object,
+          foreign_id: stripeCustomer.id,
+          data: stripeCustomer
+        }
+        return resolve(ret)
+      })
+    })
   }
 
   /**
@@ -308,7 +382,52 @@ module.exports = class ProxyGenericsStripe {
    * @returns {Promise.<T>}
    */
   updateCustomerSource(source) {
-    return Promise.resolve(source)
+    return new Promise((resolve, reject) => {
+      const update = {}
+      if (source.name){
+        update.name = source.name
+      }
+      if (source.address_city){
+        update.address_city = source.address_city
+      }
+      if (source.address_country){
+        update.address_country = source.address_country
+      }
+      if (source.address_line1){
+        update.address_line1 = source.address_line1
+      }
+      if (source.address_line2){
+        update.address_line2 = source.address_line2
+      }
+      if (source.address_state){
+        update.address_state = source.address_state
+      }
+      if (source.address_zip){
+        update.address_zip = source.address_zip
+      }
+      if (source.exp_month){
+        update.exp_month = source.exp_month
+      }
+      if (source.exp_year){
+        update.exp_year = source.exp_year
+      }
+      if (source.metadata){
+        update.metadata = source.metadata
+      }
+
+      this.stripe().customers.updateCard(source.account_foreign_id, source.foreign_id, update, function(err, stripeCustomer) {
+        if (err) {
+          return reject(err)
+        }
+        const ret = {
+          gateway: 'stripe',
+          foreign_key: stripeCustomer.object,
+          foreign_id: stripeCustomer.id,
+          data: stripeCustomer
+        }
+        return resolve(ret)
+      })
+    })
   }
 }
 
