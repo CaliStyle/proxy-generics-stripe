@@ -252,7 +252,7 @@ describe('Payment Generic Stripe', () => {
           assert.equal(customer.gateway, 'stripe')
           assert.ok(customer.foreign_id)
           assert.ok(customer.foreign_key)
-          assert.ok(customer.data)
+          assert.ok(customer.payment_details)
 
           done()
         })
@@ -271,7 +271,7 @@ describe('Payment Generic Stripe', () => {
         assert.equal(customer.gateway, 'stripe')
         assert.equal(customer.foreign_id, sourceId)
         assert.ok(customer.foreign_key)
-        assert.ok(customer.data)
+        assert.ok(customer.payment_details)
 
         done()
       })
@@ -289,7 +289,7 @@ describe('Payment Generic Stripe', () => {
         assert.equal(customer.gateway, 'stripe')
         assert.equal(customer.foreign_id, sourceId)
         assert.ok(customer.foreign_key)
-        assert.ok(customer.data)
+        assert.ok(customer.payment_details)
 
         done()
       })

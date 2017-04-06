@@ -259,8 +259,8 @@ module.exports = class ProxyGenericsStripe {
         email: customer.email,
         description: customer.description || 'Customer Account'
       }
-      if (customer.source) {
-        create.source = customer.source
+      if (customer.token) {
+        create.source = customer.token
       }
 
       this.stripe().customers.create(create, function(err, stripeCustomer) {
@@ -296,7 +296,7 @@ module.exports = class ProxyGenericsStripe {
           gateway: 'stripe',
           foreign_key: stripeCustomer.object,
           foreign_id: stripeCustomer.id,
-          data: stripeCustomer
+          payment_details: stripeCustomer
         }
         return resolve(ret)
       })
@@ -338,7 +338,7 @@ module.exports = class ProxyGenericsStripe {
           gateway: 'stripe',
           foreign_key: stripeCard.object,
           foreign_id: stripeCard.id,
-          data: stripeCard
+          payment_details: stripeCard
         }
         return resolve(ret)
       })
@@ -423,7 +423,7 @@ module.exports = class ProxyGenericsStripe {
           gateway: 'stripe',
           foreign_key: stripeCustomer.object,
           foreign_id: stripeCustomer.id,
-          data: stripeCustomer
+          payment_details: stripeCustomer
         }
         return resolve(ret)
       })
