@@ -297,4 +297,32 @@ describe('Payment Generic Stripe', () => {
         done(err)
       })
   })
+  it('charge with a customer source', (done) => {
+    PaymentGenericService.sale({
+      amount: 100,
+      payment_details: {
+        source: {
+          account_foreign_id: customerId,
+          foreign_id: sourceId, // obtained with
+        }
+      }
+    }, Stripe)
+      .then(transaction => {
+        // console.log(transaction)
+        assert.equal(transaction.amount, 100)
+        assert.equal(transaction.status, 'success')
+        assert.equal(transaction.kind, 'sale')
+        assert.equal(transaction.payment_details.type, 'credit_card')
+        assert.equal(transaction.payment_details.credit_card_company, 'Visa')
+        assert.equal(transaction.payment_details.credit_card_number, '**** **** **** 4242')
+        assert.equal(transaction.payment_details.credit_card_exp_month, 12)
+        assert.equal(transaction.payment_details.credit_card_exp_year, 2021)
+        assert.equal(transaction.payment_details.cvv_result_code, 'pass')
+
+        done()
+      })
+      .catch(err => {
+        done(err)
+      })
+  })
 })

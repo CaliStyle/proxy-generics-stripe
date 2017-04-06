@@ -68,14 +68,24 @@ module.exports = class ProxyGenericsStripe {
       }
     }
 
+    const sale = {
+      amount: transaction.amount,
+      currency: transaction.currency || 'usd',
+      source: transaction.payment_details.token,
+      description: transaction.description || 'Transaction Authorize',
+      capture: false
+    }
+
+    if (transaction.payment_details.source) {
+      sale.customer = transaction.payment_details.source.account_foreign_id
+      sale.source = transaction.payment_details.source.foreign_id
+    }
+    else {
+      sale.source = transaction.payment_details.token
+    }
+
     return new Promise((resolve, reject) => {
-      this.stripe().charges.create({
-        amount: transaction.amount,
-        currency: transaction.currency || 'usd',
-        source: transaction.payment_details.token,
-        description: transaction.description || 'Transaction Authorize',
-        capture: false
-      }, (err, charge) => {
+      this.stripe().charges.create(sale, (err, charge) => {
         if (err) {
           transaction.error_code = this.resolveStripeCardError(err)
           transaction.status = 'failure'
@@ -152,15 +162,23 @@ module.exports = class ProxyGenericsStripe {
         gateway: 'stripe'
       }
     }
+    const sale = {
+      amount: transaction.amount,
+      currency: transaction.currency || 'usd',
+      description: transaction.description || 'Transaction Sale',
+      capture: true
+    }
+
+    if (transaction.payment_details.source) {
+      sale.customer = transaction.payment_details.source.account_foreign_id
+      sale.source = transaction.payment_details.source.foreign_id
+    }
+    else {
+      sale.source = transaction.payment_details.token
+    }
 
     return new Promise((resolve, reject) => {
-      this.stripe().charges.create({
-        amount: transaction.amount,
-        currency: transaction.currency || 'usd',
-        source: transaction.payment_details.token,
-        description: transaction.description || 'Transaction Sale',
-        capture: true
-      }, (err, charge) => {
+      this.stripe().charges.create(sale, (err, charge) => {
         if (err) {
           transaction.error_code = this.resolveStripeCardError(err)
           transaction.status = 'failure'
@@ -288,15 +306,17 @@ module.exports = class ProxyGenericsStripe {
       const create = {
         source: source.token
       }
-      this.stripe().customers.createSource(source.account_foreign_id, create, function(err, stripeCustomer) {
+      this.stripe().customers.createSource(source.account_foreign_id, create, function(err, stripeCard) {
         if (err) {
           return reject(err)
         }
         const ret = {
           gateway: 'stripe',
-          foreign_key: stripeCustomer.object,
-          foreign_id: stripeCustomer.id,
-          payment_details: stripeCustomer
+          account_foreign_key: 'customer',
+          account_foreign_id: stripeCard.customer,
+          foreign_key: stripeCard.object,
+          foreign_id: stripeCard.id,
+          payment_details: stripeCard
         }
         return resolve(ret)
       })
@@ -336,6 +356,8 @@ module.exports = class ProxyGenericsStripe {
         }
         const ret = {
           gateway: 'stripe',
+          account_foreign_key: 'customer',
+          account_foreign_id: stripeCard.customer,
           foreign_key: stripeCard.object,
           foreign_id: stripeCard.id,
           payment_details: stripeCard
@@ -415,15 +437,17 @@ module.exports = class ProxyGenericsStripe {
         update.metadata = source.metadata
       }
 
-      this.stripe().customers.updateCard(source.account_foreign_id, source.foreign_id, update, function(err, stripeCustomer) {
+      this.stripe().customers.updateCard(source.account_foreign_id, source.foreign_id, update, function(err, stripeCard) {
         if (err) {
           return reject(err)
         }
         const ret = {
           gateway: 'stripe',
-          foreign_key: stripeCustomer.object,
-          foreign_id: stripeCustomer.id,
-          payment_details: stripeCustomer
+          account_foreign_key: 'customer',
+          account_foreign_id: stripeCard.customer,
+          foreign_key: stripeCard.object,
+          foreign_id: stripeCard.id,
+          payment_details: stripeCard
         }
         return resolve(ret)
       })
