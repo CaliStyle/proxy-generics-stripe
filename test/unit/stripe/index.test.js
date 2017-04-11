@@ -13,6 +13,7 @@ describe('Payment Generic Stripe', () => {
   let authorization2
   let customerId
   let sourceId
+  let customerObj
 
   before((done) => {
     PaymentGenericService = global.app.services.PaymentGenericService
@@ -193,7 +194,7 @@ describe('Payment Generic Stripe', () => {
         assert.ok(customer.foreign_id)
         assert.ok(customer.foreign_key)
         assert.ok(customer.data)
-
+        customerObj = customer
         done()
       })
       .catch(err => {
@@ -318,6 +319,21 @@ describe('Payment Generic Stripe', () => {
         assert.equal(transaction.payment_details.credit_card_exp_month, 12)
         assert.equal(transaction.payment_details.credit_card_exp_year, 2021)
         assert.equal(transaction.payment_details.cvv_result_code, 'pass')
+
+        done()
+      })
+      .catch(err => {
+        done(err)
+      })
+  })
+  it('get customer sources', (done) => {
+    PaymentGenericService.getCustomerSources(customerObj, Stripe)
+      .then(customer => {
+        // console.log('SOURCES',customer)
+        assert.equal(customer.gateway, 'stripe')
+        assert.ok(customer.foreign_id)
+        assert.ok(customer.foreign_key)
+        assert.ok(customer.sources)
 
         done()
       })

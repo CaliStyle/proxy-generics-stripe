@@ -366,6 +366,34 @@ module.exports = class ProxyGenericsStripe {
       })
     })
   }
+
+  getCustomerSources(customer) {
+    return new Promise((resolve, reject) => {
+      this.stripe().customers.listCards(customer.foreign_id, function(err, stripeCards) {
+        if (err) {
+          return reject(err)
+        }
+        const sources = stripeCards.data.map(stripeCard => {
+          return {
+            gateway: 'stripe',
+            account_foreign_key: 'customer',
+            account_foreign_id: stripeCard.customer,
+            foreign_key: stripeCard.object,
+            foreign_id: stripeCard.id,
+            payment_details: stripeCard
+          }
+        })
+        const ret = {
+          gateway: 'stripe',
+          foreign_key: customer.foreign_key,
+          foreign_id: customer.foreign_id,
+          data: customer.data,
+          sources: sources
+        }
+        return resolve(ret)
+      })
+    })
+  }
   /**
    *
    * @param customer
