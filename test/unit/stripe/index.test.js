@@ -9,6 +9,7 @@ describe('Payment Generic Stripe', () => {
   let token3
   let token4
   let token5
+  let token6
   let authorization
   let authorization2
   let customerId
@@ -355,5 +356,36 @@ describe('Payment Generic Stripe', () => {
       .catch(err => {
         done(err)
       })
+  })
+
+  it('should sale under 50', (done) => {
+    require('stripe')(
+      Stripe.options.secret
+    ).tokens.create({
+      card: {
+        'number': '4242424242424242',
+        'exp_month': 12,
+        'exp_year': 2020,
+        'cvc': '123'
+      }
+    }, function(err, stripeToken) {
+      token5 = stripeToken.id
+      PaymentGenericService.sale({
+        amount: 50,
+        payment_details: {
+          token: token5
+        }
+      }, Stripe)
+        .then(transaction => {
+          // assert.ok(transaction.authorization)
+          assert.equal(transaction.amount, 50)
+          assert.equal(transaction.status, 'success')
+          assert.equal(transaction.kind, 'sale')
+          done()
+        })
+        .catch(err => {
+          done(err)
+        })
+    })
   })
 })

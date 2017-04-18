@@ -84,6 +84,14 @@ module.exports = class ProxyGenericsStripe {
       sale.source = transaction.payment_details.token
     }
 
+    // Stripe Doesn't Allow payments less than 50 cents
+    if (transaction.amount <= 50) {
+      transaction.authorization = null
+      transaction.authorization_exp = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)
+      transaction.status = 'success'
+      return Promise.resolve(transaction)
+    }
+
     return new Promise((resolve, reject) => {
       this.stripe().charges.create(sale, (err, charge) => {
         if (err) {
@@ -122,6 +130,13 @@ module.exports = class ProxyGenericsStripe {
         gateway: 'stripe'
       }
     }
+
+    // Stripe Doesn't Allow payments less than 50 cents
+    if (transaction.amount <= 50) {
+      transaction.status = 'success'
+      return Promise.resolve(transaction)
+    }
+
     return new Promise((resolve, reject) => {
       this.stripe().charges.capture(
         transaction.authorization
@@ -175,6 +190,14 @@ module.exports = class ProxyGenericsStripe {
     }
     else {
       sale.source = transaction.payment_details.token
+    }
+
+    // Stripe Doesn't Allow payments less than 50 cents
+    if (transaction.amount <= 50) {
+      transaction.authorization = null
+      transaction.authorization_exp = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)
+      transaction.status = 'success'
+      return Promise.resolve(transaction)
     }
 
     return new Promise((resolve, reject) => {
