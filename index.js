@@ -481,5 +481,22 @@ module.exports = class ProxyGenericsStripe {
       })
     })
   }
+
+  /**
+   *
+   * @param source
+   * @returns {Promise.<T>}
+   */
+  removeCustomerSource(source) {
+    return new Promise((resolve, reject) => {
+      this.stripe().customers.deleteCard(source.account_foreign_id, source.foreign_id, function(err, stripeCard) {
+        if (err) {
+          return reject(err)
+        }
+        source.gateway = 'stripe'
+        return resolve(source)
+      })
+    })
+  }
 }
 

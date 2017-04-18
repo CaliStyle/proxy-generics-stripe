@@ -341,4 +341,19 @@ describe('Payment Generic Stripe', () => {
         done(err)
       })
   })
+  it('remove a customer source', (done) => {
+    PaymentGenericService.removeCustomerSource({
+      account_foreign_id: customerId,
+      foreign_id: sourceId, // obtained with
+    }, Stripe)
+      .then(customer => {
+        // console.log(customer)
+        assert.equal(customer.gateway, 'stripe')
+        assert.equal(customer.foreign_id, sourceId)
+        done()
+      })
+      .catch(err => {
+        done(err)
+      })
+  })
 })
