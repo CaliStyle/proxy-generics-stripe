@@ -333,13 +333,37 @@ module.exports = class ProxyGenericsStripe {
         if (err) {
           return reject(err)
         }
+        const paymentDetails = {
+          // The type of Source: credit_card, debit_card, prepaid_card, apple_pay, bitcoin
+          type: `${stripeCard.funding }_card`,
+          // the Gateway used
+          gateway: 'stripe',
+          // The Response code from AVS the address verification system. The code is a single letter; see this chart for the codes and their definitions.
+          avs_result_code: 'Y',
+          // The issuer identification number (IIN), formerly known as bank identification number (BIN) ] of the customer's credit card. This is made up of the first few digits of the credit card number.
+          credit_card_iin: '',
+          // The name of the company who issued the customer's credit card.
+          credit_card_company: stripeCard.brand,
+          // The customer's credit card number, with most of the leading digits redacted with Xs.
+          credit_card_number: `**** **** **** ${ stripeCard.last4 }`,
+          // the last 4 of the customer's credit card number
+          credit_card_last4: stripeCard.last4,
+          // the 2 digit month
+          credit_card_exp_month: stripeCard.exp_month,
+          // the 2-4 digit year
+          credit_card_exp_year: stripeCard.exp_year,
+          // The Response code from the credit card company indicating whether the customer entered the card security code, a.k.a. card verification value, correctly. The code is a single letter or empty string; see this chart http://www.emsecommerce.net/avs_cvv2_response_codes.htm for the codes and their definitions.
+          cvv_result_code: 'S',
+          // The card token from the Gateway
+          token: stripeCard.id
+        }
         const ret = {
           gateway: 'stripe',
           account_foreign_key: 'customer',
           account_foreign_id: stripeCard.customer,
           foreign_key: stripeCard.object,
           foreign_id: stripeCard.id,
-          payment_details: stripeCard
+          payment_details: paymentDetails
         }
         return resolve(ret)
       })
@@ -377,13 +401,39 @@ module.exports = class ProxyGenericsStripe {
         if (err) {
           return reject(err)
         }
+
+        const paymentDetails = {
+          // The type of Source: credit_card, debit_card, prepaid_card, apple_pay, bitcoin
+          type: `${stripeCard.funding }_card`,
+          // the Gateway used
+          gateway: 'stripe',
+          // The Response code from AVS the address verification system. The code is a single letter; see this chart for the codes and their definitions.
+          avs_result_code: 'Y',
+          // The issuer identification number (IIN), formerly known as bank identification number (BIN) ] of the customer's credit card. This is made up of the first few digits of the credit card number.
+          credit_card_iin: '',
+          // The name of the company who issued the customer's credit card.
+          credit_card_company: stripeCard.brand,
+          // The customer's credit card number, with most of the leading digits redacted with Xs.
+          credit_card_number: `**** **** **** ${ stripeCard.last4 }`,
+          // the last 4 of the customer's credit card number
+          credit_card_last4: stripeCard.last4,
+          // the 2 digit month
+          credit_card_exp_month: stripeCard.exp_month,
+          // the 2-4 digit year
+          credit_card_exp_year: stripeCard.exp_year,
+          // The Response code from the credit card company indicating whether the customer entered the card security code, a.k.a. card verification value, correctly. The code is a single letter or empty string; see this chart http://www.emsecommerce.net/avs_cvv2_response_codes.htm for the codes and their definitions.
+          cvv_result_code: 'S',
+          // The card token from the Gateway
+          token: stripeCard.id
+        }
+
         const ret = {
           gateway: 'stripe',
           account_foreign_key: 'customer',
           account_foreign_id: stripeCard.customer,
           foreign_key: stripeCard.object,
           foreign_id: stripeCard.id,
-          payment_details: stripeCard
+          payment_details: paymentDetails
         }
         return resolve(ret)
       })
@@ -397,13 +447,37 @@ module.exports = class ProxyGenericsStripe {
           return reject(err)
         }
         const sources = stripeCards.data.map(stripeCard => {
+          const paymentDetails = {
+            // The type of Source: credit_card, debit_card, prepaid_card, apple_pay, bitcoin
+            type: `${stripeCard.funding }_card`,
+            // the Gateway used
+            gateway: 'stripe',
+            // The Response code from AVS the address verification system. The code is a single letter; see this chart for the codes and their definitions.
+            avs_result_code: 'Y',
+            // The issuer identification number (IIN), formerly known as bank identification number (BIN) ] of the customer's credit card. This is made up of the first few digits of the credit card number.
+            credit_card_iin: '',
+            // The name of the company who issued the customer's credit card.
+            credit_card_company: stripeCard.brand,
+            // The customer's credit card number, with most of the leading digits redacted with Xs.
+            credit_card_number: `**** **** **** ${ stripeCard.last4 }`,
+            // the last 4 of the customer's credit card number
+            credit_card_last4: stripeCard.last4,
+            // the 2 digit month
+            credit_card_exp_month: stripeCard.exp_month,
+            // the 2-4 digit year
+            credit_card_exp_year: stripeCard.exp_year,
+            // The Response code from the credit card company indicating whether the customer entered the card security code, a.k.a. card verification value, correctly. The code is a single letter or empty string; see this chart http://www.emsecommerce.net/avs_cvv2_response_codes.htm for the codes and their definitions.
+            cvv_result_code: 'S',
+            // The card token from the Gateway
+            token: stripeCard.id
+          }
           return {
             gateway: 'stripe',
             account_foreign_key: 'customer',
             account_foreign_id: stripeCard.customer,
             foreign_key: stripeCard.object,
             foreign_id: stripeCard.id,
-            payment_details: stripeCard
+            payment_details: paymentDetails
           }
         })
         const ret = {
@@ -492,13 +566,37 @@ module.exports = class ProxyGenericsStripe {
         if (err) {
           return reject(err)
         }
+        const paymentDetails = {
+          // The type of Source: credit_card, debit_card, prepaid_card, apple_pay, bitcoin
+          type: `${stripeCard.funding }_card`,
+          // the Gateway used
+          gateway: 'stripe',
+          // The Response code from AVS the address verification system. The code is a single letter; see this chart for the codes and their definitions.
+          avs_result_code: 'Y',
+          // The issuer identification number (IIN), formerly known as bank identification number (BIN) ] of the customer's credit card. This is made up of the first few digits of the credit card number.
+          credit_card_iin: '',
+          // The name of the company who issued the customer's credit card.
+          credit_card_company: stripeCard.brand,
+          // The customer's credit card number, with most of the leading digits redacted with Xs.
+          credit_card_number: `**** **** **** ${ stripeCard.last4 }`,
+          // the last 4 of the customer's credit card number
+          credit_card_last4: stripeCard.last4,
+          // the 2 digit month
+          credit_card_exp_month: stripeCard.exp_month,
+          // the 2-4 digit year
+          credit_card_exp_year: stripeCard.exp_year,
+          // The Response code from the credit card company indicating whether the customer entered the card security code, a.k.a. card verification value, correctly. The code is a single letter or empty string; see this chart http://www.emsecommerce.net/avs_cvv2_response_codes.htm for the codes and their definitions.
+          cvv_result_code: 'S',
+          // The card token from the Gateway
+          token: stripeCard.id
+        }
         const ret = {
           gateway: 'stripe',
           account_foreign_key: 'customer',
           account_foreign_id: stripeCard.customer,
           foreign_key: stripeCard.object,
           foreign_id: stripeCard.id,
-          payment_details: stripeCard
+          payment_details: paymentDetails
         }
         return resolve(ret)
       })
