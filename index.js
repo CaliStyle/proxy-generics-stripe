@@ -351,8 +351,8 @@ module.exports = class ProxyGenericsStripe {
         email: customer.email,
         description: customer.description || 'Customer Account'
       }
-      if (customer.token) {
-        create.source = customer.token
+      if (customer.payment_token) {
+        create.source = customer.payment_token
       }
 
       this.stripe().customers.create(create, function(err, stripeCustomer) {
