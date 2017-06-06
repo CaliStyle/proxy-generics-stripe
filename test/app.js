@@ -11,6 +11,7 @@ module.exports = _.defaultsDeep({
   config: {
     main: {
       packs: [
+        require('trailpack-router'),
         require('trailpack-proxy-generics')
       ]
     },
@@ -20,7 +21,8 @@ module.exports = _.defaultsDeep({
         options: {
           public: process.env.STRIPE_PUBLIC,
           secret: process.env.STRIPE_SECRET
-        }
+        },
+        api: require('../api')
       }
     }
   }

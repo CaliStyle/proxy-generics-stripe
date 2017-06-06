@@ -28,7 +28,7 @@
     "mocha": "^2.4.5",
     "smokesignals": "^2.0.0",
     "supertest": "^2.0.1",
-    "trailpack-proxy-generics": "^0.0.34",
+    "trailpack-proxy-generics": "^1.0.1",
     "trails": "^2.0.0"
   },
   "scripts": {
