@@ -29,6 +29,7 @@
     "smokesignals": "^2.0.0",
     "supertest": "^2.0.1",
     "trailpack-proxy-generics": "^1.0.1",
+    "trailpack-router": "^2.1.0",
     "trails": "^2.0.0"
   },
   "scripts": {
