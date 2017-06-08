@@ -143,6 +143,7 @@ module.exports = class ProxyGenericsStripe {
         }
         transaction.amount = charge.amount
         transaction.status = 'success'
+        transaction.receipt = charge
         transaction.authorization = charge.id
         transaction.authorization_exp = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)
         transaction.payment_details.type = `${charge.source.funding}_${charge.source.object}`
@@ -190,6 +191,7 @@ module.exports = class ProxyGenericsStripe {
         }
         transaction.amount = charge.amount
         transaction.status = 'success'
+        transaction.receipt = charge
         transaction.authorization = charge.id
         transaction.payment_details.type = `${charge.source.funding}_${charge.source.object}`
         if (charge.source.object == 'card') {
@@ -260,6 +262,7 @@ module.exports = class ProxyGenericsStripe {
         }
         transaction.amount = charge.amount
         transaction.status = 'success'
+        transaction.receipt = charge
         transaction.authorization = charge.id
         transaction.payment_details.type = `${charge.source.funding}_${charge.source.object}`
         if (charge.source.object == 'card') {
@@ -303,6 +306,7 @@ module.exports = class ProxyGenericsStripe {
         }
         transaction.amount = refund.amount
         transaction.status = 'success'
+        transaction.receipt = refund
         return resolve(transaction)
       })
     })
@@ -335,6 +339,7 @@ module.exports = class ProxyGenericsStripe {
         }
         transaction.amount = refund.amount
         transaction.status = 'success'
+        transaction.receipt = refund
         return resolve(transaction)
       })
     })
