@@ -23,12 +23,13 @@ $ npm install --save proxy-generics-stripe
 module.exports = {
   // make the key stripe, alternatively make the key payment_processor to be the default payment_processor  
   stripe: {
-      adapter: require('proxy-generic-stripe'),
-      options: {
-          public: '<your public key>',
-          secret: '<your private key>'
-      },
-      icon: '' // url to an icon you want to use for this generic
+    adapter: require('proxy-generic-stripe'),
+    options: {
+        public: '<your public key>',
+        secret: '<your private key>'
+    },
+    api: require('proxy-generic-stripe/api'),
+    icon: '' // url to an icon you want to use for this generic
   }
 }
 ```
