@@ -152,6 +152,7 @@ module.exports = class ProxyGenericsStripe {
         if (charge.source.object == 'card') {
           transaction.payment_details.avs_result_code = 'Y'
           transaction.payment_details.credit_card_iin = null
+          transaction.payment_details.credit_card_name = charge.source.name
           transaction.payment_details.credit_card_company = charge.source.brand
           transaction.payment_details.credit_card_number = `**** **** **** ${charge.source.last4}`
           transaction.payment_details.credit_card_exp_month = charge.source.exp_month
@@ -199,6 +200,7 @@ module.exports = class ProxyGenericsStripe {
         if (charge.source.object == 'card') {
           transaction.payment_details.avs_result_code = 'Y'
           transaction.payment_details.credit_card_iin = null
+          transaction.payment_details.credit_card_name = charge.source.name
           transaction.payment_details.credit_card_company = charge.source.brand
           transaction.payment_details.credit_card_number = `**** **** **** ${charge.source.last4}`
           transaction.payment_details.credit_card_exp_month = charge.source.exp_month
@@ -270,6 +272,7 @@ module.exports = class ProxyGenericsStripe {
         if (charge.source.object == 'card') {
           transaction.payment_details.avs_result_code = 'Y'
           transaction.payment_details.credit_card_iin = null
+          transaction.payment_details.credit_card_name = charge.source.name
           transaction.payment_details.credit_card_company = charge.source.brand
           transaction.payment_details.credit_card_number = `**** **** **** ${charge.source.last4}`
           transaction.payment_details.credit_card_exp_month = charge.source.exp_month
