@@ -81,10 +81,9 @@ module.exports = class StripeWebhookService extends Service {
   validateStripeEvent(id){
     return Promise.resolve()
       .then(() => {
-        // TODO
-        // if (!this.app.config.stripe.validate) {
-        //   return Promise.resolve()
-        // }
+        if (!this.options.validate) {
+          return Promise.resolve()
+        }
         return new Promise((resolve, reject) => {
           this.stripe.events.retrieve(id, function(err, event) {
             if (err) {

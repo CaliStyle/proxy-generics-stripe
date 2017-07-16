@@ -69,6 +69,8 @@ module.exports = class ProxyGenericsStripe {
       avs_result_code: 'Y',
       // The issuer identification number (IIN), formerly known as bank identification number (BIN) ] of the customer's credit card. This is made up of the first few digits of the credit card number.
       credit_card_iin: '',
+      // The Cardholder name.
+      credit_card_name: stripeCard.name,
       // The name of the company who issued the customer's credit card.
       credit_card_company: stripeCard.brand,
       // The customer's credit card number, with most of the leading digits redacted with Xs.
