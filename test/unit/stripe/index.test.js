@@ -45,7 +45,7 @@ describe('Payment Generic Stripe', () => {
     PaymentGenericService.authorize({
       amount: 100,
       payment_details: {
-        token: token
+        gateway_token: token
       }
     }, Stripe)
       .then(transaction => {
@@ -102,7 +102,7 @@ describe('Payment Generic Stripe', () => {
       PaymentGenericService.sale({
         amount: 100,
         payment_details: {
-          token: token2
+          gateway_token: token2
         }
       }, Stripe)
         .then(transaction => {
@@ -247,7 +247,7 @@ describe('Payment Generic Stripe', () => {
       token5 = stripeToken.id
       PaymentGenericService.createCustomerSource({
         account_foreign_id: customerId,
-        token: token5 // obtained with
+        gateway_token: token5 // obtained with
       }, Stripe)
         .then(customer => {
           sourceId = customer.foreign_id
@@ -373,7 +373,7 @@ describe('Payment Generic Stripe', () => {
       PaymentGenericService.sale({
         amount: 50,
         payment_details: {
-          token: token5
+          gateway_token: token5
         }
       }, Stripe)
         .then(transaction => {

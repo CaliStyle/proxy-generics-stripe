@@ -26,7 +26,7 @@ describe('Payment Generic Stripe', () => {
       PaymentGenericService.sale({
         amount: 100,
         payment_details: {
-          token: stripeToken.id
+          gateway_token: stripeToken.id
         }
       }, Stripe)
         .then(transaction => {

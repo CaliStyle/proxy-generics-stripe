@@ -57,7 +57,7 @@ module.exports = class ProxyGenericsStripe {
   /**
    *
    * @param stripeCard
-   * @returns {{type: string, gateway: string, avs_result_code: string, credit_card_iin: string, credit_card_company: *, credit_card_number: string, credit_card_last4: *, credit_card_exp_month: (number|*), credit_card_exp_year: (string|number|*), cvv_result_code: string, token: (string|*)}}
+   * @returns {{type: string, gateway: string, avs_result_code: string, credit_card_iin: string, credit_card_company: *, credit_card_number: string, credit_card_last4: *, credit_card_exp_month: (number|*), credit_card_exp_year: (string|number|*), cvv_result_code: string, gateway_token: (string|*)}}
    */
   resolveToPaymentDetails(stripeCard) {
     const paymentDetails = {
@@ -84,7 +84,7 @@ module.exports = class ProxyGenericsStripe {
       // The Response code from the credit card company indicating whether the customer entered the card security code, a.k.a. card verification value, correctly. The code is a single letter or empty string; see this chart http://www.emsecommerce.net/avs_cvv2_response_codes.htm for the codes and their definitions.
       cvv_result_code: 'S',
       // The card token from the Gateway
-      token: stripeCard.id
+      gateway_token: stripeCard.id
     }
     return paymentDetails
   }
@@ -106,7 +106,7 @@ module.exports = class ProxyGenericsStripe {
     const sale = {
       amount: transaction.amount,
       currency: transaction.currency || 'usd',
-      source: transaction.payment_details.token,
+      source: transaction.payment_details.gateway_token,
       description: transaction.description || 'Transaction Authorize',
       capture: false
     }
@@ -116,12 +116,12 @@ module.exports = class ProxyGenericsStripe {
       sale.source = transaction.payment_details.source.foreign_id
     }
     else {
-      sale.source = transaction.payment_details.token
+      sale.source = transaction.payment_details.gateway_token
     }
 
     // Stripe Doesn't Allow payments less than 50 cents
     if (transaction.amount <= 50) {
-      transaction.authorization = transaction.payment_details.source ? transaction.payment_details.source.foreign_id : transaction.payment_details.token
+      transaction.authorization = transaction.payment_details.source ? transaction.payment_details.source.foreign_id : transaction.payment_details.gateway_token
       transaction.authorization_exp = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)
       transaction.status = 'success'
       // Load blank payment details
@@ -237,12 +237,12 @@ module.exports = class ProxyGenericsStripe {
       sale.source = transaction.payment_details.source.foreign_id
     }
     else {
-      sale.source = transaction.payment_details.token
+      sale.source = transaction.payment_details.gateway_token
     }
 
     // Stripe Doesn't Allow payments less than 50 cents
     if (transaction.amount <= 50) {
-      transaction.authorization = transaction.payment_details.source ? transaction.payment_details.source.foreign_id : transaction.payment_details.token
+      transaction.authorization = transaction.payment_details.source ? transaction.payment_details.source.foreign_id : transaction.payment_details.gateway_token
       transaction.authorization_exp = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)
       transaction.status = 'success'
       // Load blank payment details
@@ -388,7 +388,7 @@ module.exports = class ProxyGenericsStripe {
   createCustomerSource(source) {
     return new Promise((resolve, reject) => {
       const create = {
-        source: source.token
+        source: source.gateway_token
       }
       this.stripe().customers.createSource(source.account_foreign_id, create, (err, stripeCard) => {
         if (err) {
