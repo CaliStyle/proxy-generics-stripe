@@ -81,6 +81,17 @@ module.exports = class ProxyGenericsStripe {
       credit_card_exp_month: stripeCard.exp_month,
       // the 2-4 digit year
       credit_card_exp_year: stripeCard.exp_year,
+
+      // The address
+      credit_card_address_city: stripeCard.address_city,
+      credit_card_address_country: stripeCard.address_country,
+      credit_card_address_line1: stripeCard.address_line1,
+      credit_card_address_line1_check: stripeCard.address_line1_check,
+      credit_card_address_line2: stripeCard.address_line2,
+      credit_card_address_state: stripeCard.address_state,
+      credit_card_address_zip: stripeCard.address_zip,
+      credit_card_address_zip_check: stripeCard.address_zip_check,
+
       // The Response code from the credit card company indicating whether the customer entered the card security code, a.k.a. card verification value, correctly. The code is a single letter or empty string; see this chart http://www.emsecommerce.net/avs_cvv2_response_codes.htm for the codes and their definitions.
       cvv_result_code: 'S',
       // The card token from the Gateway
@@ -133,6 +144,16 @@ module.exports = class ProxyGenericsStripe {
       transaction.payment_details.credit_card_exp_month = null
       transaction.payment_details.credit_card_exp_year = null
       transaction.payment_details.cvv_result_code = null
+
+      transaction.payment_details.credit_card_address_city = null
+      transaction.payment_details.credit_card_address_country = null
+      transaction.payment_details.credit_card_address_line1 = null
+      transaction.payment_details.credit_card_address_line1_check = null
+      transaction.payment_details.credit_card_address_line2 = null
+      transaction.payment_details.credit_card_address_state = null
+      transaction.payment_details.credit_card_address_zip = null
+      transaction.payment_details.credit_card_address_zip_check = null
+
       return Promise.resolve(transaction)
     }
 
@@ -149,7 +170,7 @@ module.exports = class ProxyGenericsStripe {
         transaction.authorization = charge.id
         transaction.authorization_exp = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)
         transaction.payment_details.type = `${charge.source.funding}_${charge.source.object}`
-        if (charge.source.object == 'card') {
+        if (charge.source.object === 'card') {
           transaction.payment_details.avs_result_code = 'Y'
           transaction.payment_details.credit_card_iin = null
           transaction.payment_details.credit_card_name = charge.source.name
@@ -158,6 +179,15 @@ module.exports = class ProxyGenericsStripe {
           transaction.payment_details.credit_card_exp_month = charge.source.exp_month
           transaction.payment_details.credit_card_exp_year = charge.source.exp_year
           transaction.payment_details.cvv_result_code = charge.source.cvc_check
+
+          transaction.payment_details.credit_card_address_city = charge.source.address_city
+          transaction.payment_details.credit_card_address_country = charge.source.address_country
+          transaction.payment_details.credit_card_address_line1 = charge.source.address_line1
+          transaction.payment_details.credit_card_address_line1_check = charge.source.address_line1_check
+          transaction.payment_details.credit_card_address_line2 = charge.source.address_line2
+          transaction.payment_details.credit_card_address_state = charge.source.address_state
+          transaction.payment_details.credit_card_address_zip = charge.source.address_zip
+          transaction.payment_details.credit_card_address_zip_check = charge.source.address_zip_check
         }
         return resolve(transaction)
       })
@@ -197,7 +227,7 @@ module.exports = class ProxyGenericsStripe {
         transaction.receipt = charge
         transaction.authorization = charge.id
         transaction.payment_details.type = `${charge.source.funding}_${charge.source.object}`
-        if (charge.source.object == 'card') {
+        if (charge.source.object === 'card') {
           transaction.payment_details.avs_result_code = 'Y'
           transaction.payment_details.credit_card_iin = null
           transaction.payment_details.credit_card_name = charge.source.name
@@ -206,6 +236,15 @@ module.exports = class ProxyGenericsStripe {
           transaction.payment_details.credit_card_exp_month = charge.source.exp_month
           transaction.payment_details.credit_card_exp_year = charge.source.exp_year
           transaction.payment_details.cvv_result_code = charge.source.cvc_check
+
+          transaction.payment_details.credit_card_address_city = charge.source.address_city
+          transaction.payment_details.credit_card_address_country = charge.source.address_country
+          transaction.payment_details.credit_card_address_line1 = charge.source.address_line1
+          transaction.payment_details.credit_card_address_line1_check = charge.source.address_line1_check
+          transaction.payment_details.credit_card_address_line2 = charge.source.address_line2
+          transaction.payment_details.credit_card_address_state = charge.source.address_state
+          transaction.payment_details.credit_card_address_zip = charge.source.address_zip
+          transaction.payment_details.credit_card_address_zip_check = charge.source.address_zip_check
         }
         return resolve(transaction)
       })
@@ -254,6 +293,16 @@ module.exports = class ProxyGenericsStripe {
       transaction.payment_details.credit_card_exp_month = null
       transaction.payment_details.credit_card_exp_year = null
       transaction.payment_details.cvv_result_code = null
+
+      transaction.payment_details.credit_card_address_city = null
+      transaction.payment_details.credit_card_address_country = null
+      transaction.payment_details.credit_card_address_line1 = null
+      transaction.payment_details.credit_card_address_line1_check = null
+      transaction.payment_details.credit_card_address_line2 = null
+      transaction.payment_details.credit_card_address_state = null
+      transaction.payment_details.credit_card_address_zip = null
+      transaction.payment_details.credit_card_address_zip_check = null
+
       return Promise.resolve(transaction)
     }
 
@@ -269,7 +318,7 @@ module.exports = class ProxyGenericsStripe {
         transaction.receipt = charge
         transaction.authorization = charge.id
         transaction.payment_details.type = `${charge.source.funding}_${charge.source.object}`
-        if (charge.source.object == 'card') {
+        if (charge.source.object === 'card') {
           transaction.payment_details.avs_result_code = 'Y'
           transaction.payment_details.credit_card_iin = null
           transaction.payment_details.credit_card_name = charge.source.name
@@ -278,6 +327,15 @@ module.exports = class ProxyGenericsStripe {
           transaction.payment_details.credit_card_exp_month = charge.source.exp_month
           transaction.payment_details.credit_card_exp_year = charge.source.exp_year
           transaction.payment_details.cvv_result_code = charge.source.cvc_check
+
+          transaction.payment_details.credit_card_address_city = charge.source.address_city
+          transaction.payment_details.credit_card_address_country = charge.source.address_country
+          transaction.payment_details.credit_card_address_line1 = charge.source.address_line1
+          transaction.payment_details.credit_card_address_line1_check = charge.source.address_line1_check
+          transaction.payment_details.credit_card_address_line2 = charge.source.address_line2
+          transaction.payment_details.credit_card_address_state = charge.source.address_state
+          transaction.payment_details.credit_card_address_zip = charge.source.address_zip
+          transaction.payment_details.credit_card_address_zip_check = charge.source.address_zip_check
         }
         return resolve(transaction)
       })
@@ -387,9 +445,42 @@ module.exports = class ProxyGenericsStripe {
    */
   createCustomerSource(source) {
     return new Promise((resolve, reject) => {
-      const create = {
-        source: source.gateway_token
+      const create = {}
+      if (source.gateway_token) {
+        create.source = source.gateway_token
       }
+      // TODO If normal Credit Card Conventions are followed.
+      // if (source.name){
+      //   create.name = source.name
+      // }
+      // if (source.address_city){
+      //   create.address_city = source.address_city
+      // }
+      // if (source.address_country){
+      //   create.address_country = source.address_country
+      // }
+      // if (source.address_line1){
+      //   create.address_line1 = source.address_line1
+      // }
+      // if (source.address_line2){
+      //   create.address_line2 = source.address_line2
+      // }
+      // if (source.address_state){
+      //   create.address_state = source.address_state
+      // }
+      // if (source.address_zip){
+      //   create.address_zip = source.address_zip
+      // }
+      // if (source.exp_month){
+      //   create.exp_month = source.exp_month
+      // }
+      // if (source.exp_year){
+      //   create.exp_year = source.exp_year
+      // }
+      // if (source.metadata){
+      //   create.metadata = source.metadata
+      // }
+
       this.stripe().customers.createSource(source.account_foreign_id, create, (err, stripeCard) => {
         if (err) {
           return reject(err)
