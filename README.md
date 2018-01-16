@@ -1,5 +1,7 @@
 # proxy-generics-stripe
 
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/CaliStyle/proxy-generics-stripe.svg?columns=all)](https://waffle.io/CaliStyle/proxy-generics-stripe)
+
 [![NPM version][npm-image]][npm-url]
 [![Build status][ci-image]][ci-url]
 [![Dependency Status][daviddm-image]][daviddm-url]
